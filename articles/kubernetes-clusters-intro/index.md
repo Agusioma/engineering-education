@@ -1,10 +1,26 @@
-### Getting started with Kubernetes Clusters
+---
+layout: engineering-education
+status: publish
+published: true
+url: /engineering-education/kubernetes-clusters-intro/
+title: Getting started with Kubernetes Clusters
+description:A Kubernetes Cluster manages containers that consist of nodes that work together to perform a particular operation. In this article we explore the various alternatives available to deploy containers and understand the components of Kubernetes.
+author: sandra-moringa
+date: 2021-05-17T00:00:00-18:00
+topics: []
+excerpt_separator: <!--more-->
+images:
 
-A **Kubernetes Cluster**  manages containers that consist of nodes that work together to perform a certain operation.
-After successfully building an application container, we usually get the motivation to deploy it into a reliable and scalable distributed system. Several cloud-based service providers make it easy to create Kubernetes clusters using few command-based instructions. This option is highly recommended if one is getting started with Kubernetes because it's better to quickly get started with
+ - url: /engineering-education/kubernetes-clusters-intro/hero.jpg
+   alt: kubernetes cluster example image
+
+---
+
+A **Kubernetes Cluster**  manages containers that consist of nodes that work together to perform a particular operation. After successfully building an application container, we usually get the motivation to deploy it into a reliable and scalable distributed system. Several cloud-based service providers make it easy to create Kubernetes clusters using few command-based instructions. This option is highly recommended if one is getting started with Kubernetes because it's better to get started quickly.
+
 Kubernetes, learn about it and then learn how to install it in our physical machines. As much as using cloud-based solutions requires us to pay and have an active network connection to the cloud,  the **minikube** tool only creates a *single-node cluster*, which doesn’t demonstrate all aspects of a complete Kubernetes cluster.
 
-#### Installing in Public Cloud Providers
+### Installing in Public Cloud Providers
 
 In this section, We will look at how to install Kubernetes in these Cloud Providers:
 
@@ -40,7 +56,7 @@ For complete and detailed instructions, read the documentation [here](https://cl
 
 2. Microsoft Azure
 
-To get started, we click the shell icon in the toolbar to access the already provided Shell:
+To get started, we click the shell icon in the toolbar to access the already provided shell:
 
 ![Shell icon](shell.png)
 
@@ -65,13 +81,13 @@ for the cluster using this command:
     $ az acs Kubernetes get-credentials --resource-group=<group-name> --name=<cluster-name>
 ```
 
-Further instructions can be found in the [Azure documentation](https://docs.microsoft.com/en-us/azure/aks/Kubernetes-walkthrough).
+One can find further instructions in the [Azure documentation](https://docs.microsoft.com/en-us/azure/aks/Kubernetes-walkthrough).
 
 3. Installing Kubernetes Locally
 
-> Too use minikube, we need to have [hypervisor](https://www.vmware.com/topics/glossary/content/hypervisor#:~:text=A%20hypervisor%2C%20also%20known%20as,such%20as%20memory%20and%20processing.) installed on our machines.
+> To use minikube, we need [hypervisor](https://www.vmware.com/topics/glossary/content/hypervisor) installed on our machines.
 
-The minikube tool can be found [here](https://github.com/Kubernetes/minikube) where links to binaries for one's Operating System of choice can be found. 
+The minikube tool can be found [here](https://github.com/Kubernetes/minikube). Links to binaries for one's Operating System of choice are made available at the same link. 
 
 After installation, create a cluster and start it using this command:
 
@@ -99,7 +115,7 @@ $ minikube delete
 
 More instructions can be found [here](https://minikube.sigs.k8s.io/docs/start/)
 
-#### The Kubernetes Client
+### The Kubernetes Client
 
 Denoted as`kubectl`, the Kubernetes Client is used for managing, controlling the Kubernetes API objects and also helps us monitor the health of our clusters using the command line.
 
@@ -129,9 +145,9 @@ Run this to get more information about a certain node:
 $ kubectl describe nodes <node-name>
 ```
 
-#### Common Cluster Components
+### Common Cluster Components
 
-We are going to look at a few components that make up a Kubernetes Cluster namely:
+We are going to look at a few components that make up a Kubernetes Cluster, namely:
 
 - Kubernetes Proxy
 - Kubernetes DNS
@@ -139,7 +155,7 @@ We are going to look at a few components that make up a Kubernetes Cluster namel
 
 1. Kubernetes Proxy(```kube-proxy```)
 
-It enables services not in a cluster to communicate with those in a cluster through a network through a set of rules specified by it. Kubernetes achieves this using an object called the `DaemonSet` which makes the proxy run in every node in the cluster. 
+It enables services not in a cluster to communicate with those in a cluster through a network through a set of rules. Kubernetes achieves this using an object called the `DaemonSet,` which makes the proxy run in every node in the cluster. 
 
 To see the proxies, we use this:
 
@@ -148,15 +164,16 @@ $ kubectl get daemonSets --namespace=kube-system kube-proxy
 
 ```
 The `kube-proxy` can be implemented in three modes:
-- **User space** - Here, the proxy process do not run in the kernel network but in a user process level hence its name. It's not recommended because it is a slow method.
-- **iptables** - Unlike the User space mode, this mode operates in the kernel and it operates in a round-robin style of scheduling services in a cluster. It is not used when there are many services because its style of scheduling may lead to slow performance and depriving more useful services time.
-- **IPVS** - (IP Virtual Server) Operates in the same manner as the **iptables** only that it uses more efficient scheduling algorithms that reduce the delay time. Used where there are many services.
+- **User space** - Here, the proxy process does not run in the kernel network but in a user process level hence its name. It's not recommended because it is a slow method.
+- **iptables** - Unlike the User space mode, this mode operates in the kernel, and it operates in a round-robin style of scheduling services in a cluster. It is not used when there are many services because its scheduling style may lead to slow performance and depriving more useful services time.
+- **IPVS** - (IP Virtual Server) Operates in the same manner as the **iptables**. It uses more efficient scheduling algorithms that reduce the delay time. Used where there are many services.
 
 Read more on Kubernetes Proxy [here](https://Kubernetes.io/docs/concepts/cluster-administration/proxies/)
 
 2. Kubernetes DNS
 
-Kubernetes runs a DNS server that provides easy identification of services in a cluster by assigning them names thereby allowing their functionality to be accessed without getting to know their IP addresses.  
+Kubernetes runs a DNS server that provides easy identification of services in a cluster by assigning them names, thereby allowing their functionality to be accessed without getting to know their IP addresses.  
+
 We can view the DNS servers running by using this command:
 
 ```bash
@@ -166,7 +183,7 @@ Read more on Kubernetes DNS [here](https://Kubernetes.io/docs/concepts/services-
 
 3. Kubernetes UI
 
-This is a web-based graphical user interface and to see it, we use this command:
+This is a web-based graphical user interface, and to see it, we use this command:
 
 ```bash
 $ kubectl get deployments --namespace=kube-system Kubernetes-dashboard
@@ -179,6 +196,9 @@ $ kubectl proxy
 ```
 Read more on Kubernetes UI [here](https://Kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/)
 
-#### Conclusion
+### Conclusion
 
-We have gone through a very basic introduction to Kubernetes clusters. View content on the links attached to get more insights. Have a good one.
+We have gone through an elementary introduction to Kubernetes clusters. View content on the links attached to get more insights. 
+
+---
+Peer Review Contributions by: [Lalithnarayan C](/engineering-education/authors/lalithnarayan-c/)
