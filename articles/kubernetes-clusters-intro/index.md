@@ -40,7 +40,7 @@ For complete and detailed instructions, read the documentation [here](https://cl
 
 2. Microsoft Azure
 
-To get started, we use the built-in Shell in the portal by clicking the shell icon in the toolbar:
+To get started, we click the shell icon in the toolbar to access the already provided Shell:
 
 ![Shell icon](shell.png)
 
@@ -123,7 +123,7 @@ $ kubectl get nodes
 
 We will get all the node names, their health statuses, and age.
 
-To get more information about a specific node, we run this:
+Run this to get more information about a certain node:
 
 ```bash
 $ kubectl describe nodes <node-name>
