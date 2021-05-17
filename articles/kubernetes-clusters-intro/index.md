@@ -21,13 +21,13 @@ It offers a hosted *Kubernetes-as-a-Service* called **Google Container Engine (G
 Once everything is in place, we set our default zone:
 
 ```bash
-     $ gcloud config set compute/zone <your-timezone>
+     $ gcloud config set compute/zone <timezone>
 ```     
 
 Then create a cluster:
 
 ```bash
-     $ gcloud container clusters create <your-cluster>
+     $ gcloud container clusters create <cluster>
 ```
 
 > It may take a few minutes
@@ -46,49 +46,34 @@ To get started, we use the built-in Shell in the portal by clicking the shell ic
 
 ![Shell icon](shell.png)
 
-We can also install the  shell in your local machine using the instructions contained [here](https://docs.microsoft.com/cli/azure/install-azure-cli).
+We can also install the  shell in our local machines using the instructions contained [here](https://docs.microsoft.com/cli/azure/install-azure-cli).
 
 Once the shell is up and running, we can create a resource group using this command:
 
 ```bash
-     $ az group create --name=<your-group-name> --location=<your-location>
-```
-You should get a json output as in the format below:
-
-```json
-{
-  "id": "<resource-path>",
-  "location": "<your-location>",
-  "managedBy": null,
-  "name": "<your-group-name>",
-  "properties": {
-    "provisioningState": "Succeeded"
-  },
-  "tags": null
-}
+     $ az group create --name=<group-name> --location=<location>
 ```
 
 We then create a cluster using:
 
 ```bash
-     $ az acs create --orchestrator-type=Kubernetes \
-        --resource-group=<your-group-name> --name=<your-cluster-name>
+       --resource-group=<group-name> --name=<cluster-name>
 ```
 
 After the cluster is created, we can get credentials
 for the cluster using this command:
 
 ```bash
-     $ az acs Kubernetes get-credentials         --resource-group=<your-group-name> --name=<your-cluster-name>
+    $ az acs Kubernetes get-credentials --resource-group=<group-name> --name=<cluster-name>
 ```
 
 Further instructions can be found in the [Azure documentation](https://docs.microsoft.com/en-us/azure/aks/Kubernetes-walkthrough).
 
 3. Installing Kubernetes Locally
 
-> Too use minikube, you need to have [hypervisor](https://www.vmware.com/topics/glossary/content/hypervisor#:~:text=A%20hypervisor%2C%20also%20known%20as,such%20as%20memory%20and%20processing.) installed on your machine.
+> Too use minikube, we need to have [hypervisor](https://www.vmware.com/topics/glossary/content/hypervisor#:~:text=A%20hypervisor%2C%20also%20known%20as,such%20as%20memory%20and%20processing.) installed on our machines.
 
-The minikube tool can be found [here](https://github.com/Kubernetes/minikube) where links to binaries for your Operating System of choice can be found. Once the tool is installed, we can create a local cluster using this command:
+The minikube tool can be found [here](https://github.com/Kubernetes/minikube) where links to binaries for one's Operating System of choice can be found. Once the tool is installed, we can create a local cluster using this command:
 
 ```bash
      $ minikube start
@@ -186,7 +171,7 @@ Read more on Kubernetes Proxy [here](https://Kubernetes.io/docs/concepts/cluster
 
 2. Kubernetes DNS
 
-Kubernetes runs a DNS server that provides easy identification of services in a cluster by assigning them names thereby allowing us to access their functionality without knowing their identity. 
+Kubernetes runs a DNS server that provides easy identification of services in a cluster by assigning them names thereby allowing their functionality to be accessed without getting to know their IP addresses.  
 We can view the DNS servers running by using this command:
 
 ```bash
