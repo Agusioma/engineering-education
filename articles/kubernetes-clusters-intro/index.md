@@ -1,23 +1,24 @@
 ### Getting started with Kubernetes Clusters
 
-A **Kubernetes Cluster** manages containers consisting of nodes that work together to perform a certain operation. In this article, we will first look at how to install Kubernetes on a Cloud Provider and locally in our machines.
-After successfully building an application container, we usually get the motivation to deploy it into a reliable and scalable distributed system. To do this, we need a working Kubernetes cluster.
+A **Kubernetes Cluster** is a  manages containers which consists of nodes that work together to perform a certain operation. In this article, we will first look at how to install Kubernetes on a Cloud Provider and locally in our machines.
+After successfully building an application container, we usually get the motivation to deploy it into a reliable and scalable distributed system. This can be achieved by using Kubernetes cluster.
 
 Several cloud-based service providers make it easy to create Kubernetes clusters using few command-based instructions. This option is highly recommended if one is getting started with Kubernetes because  it's better to quickly get started with
 Kubernetes, learn about it, and then, later on, learn how to install it in our physical machines. As much as using cloud-based solutions requires us to pay and have an active network connection to the cloud,  the **minikube** tool only creates a *single-node cluster*, which doesn’t demonstrate all aspects of a complete Kubernetes cluster.
 
-#### Installing Kubernetes Public Cloud Providers
+#### Installing in Public Cloud Providers
 
-We will look at how to install Kubernetes on the:
+In this section, We will look at how to install Kubernetes in these Cloud Providers:
 
 - Google Cloud Platform.
 - Microsoft Azure
 
 1. Google Cloud Platform
 
-It offers a hosted *Kubernetes-as-a-Service* called
-**Google Container Engine (GKE)**. To use it, you need a [Google Cloud Platform account](https://console.cloud.google.com/freetrial?_ga=2.256403528.294839319.1619953021-1551188299.1619953021) with billing enabled and the [gcloud tool](https://cloud.google.com/sdk/docs/install) installed.
-Once you have gcloud installed, set a default zone:
+It offers a hosted *Kubernetes-as-a-Service* called **Google Container Engine (GKE)**. One needs to sign up for [the platform's Platform account](https://console.cloud.google.com/freetrial?_ga=2.256403528.294839319.1619953021-1551188299.1619953021) and install the [gcloud tool](https://cloud.google.com/sdk/docs/install).
+
+> NOTE: Billing has to be enabled for us to use the platform.
+Once everything is in place, we set our default zone:
 
 ```bash
      $ gcloud config set compute/zone <your-timezone>
@@ -31,25 +32,21 @@ Then create a cluster:
 
 > It may take a few minutes
 
-When the cluster is ready you can get its credentials
-using this command:
+We can get the cluster's credentials using this command:
 
 ```bash
      $ gcloud auth application-default login
 ```
 
-If you experience any trouble or you want the complete installation instructions, then read there [documentation](https://cloud.google.com/Kubernetes-engine/docs/how-to/).
+For complete and detailed instructions, read the documentation [here](https://cloud.google.com/Kubernetes-engine/docs/how-to/).
 
 2. Microsoft Azure
 
-As part of the Azure Container Service, it also offers Kubernetes-as-a-Service. To get started with it, we use the built-in Shell in the Azure portal. You can activate the
-shell by clicking the shell icon in the toolbar:
+To get started, we use the built-in Shell in the portal by clicking the shell icon in the toolbar:
 
 ![Shell icon](shell.png)
 
-The shell has the **az CLI** tool already
-configured to work with your Azure environment. You can also install the az command-line interface (CLI) in your local
-machine using the instructions contained [here](https://docs.microsoft.com/cli/azure/install-azure-cli).
+We can also install the  shell in your local machine using the instructions contained [here](https://docs.microsoft.com/cli/azure/install-azure-cli).
 
 Once the shell is up and running, we can create a resource group using this command:
 
@@ -91,7 +88,7 @@ Further instructions can be found in the [Azure documentation](https://docs.micr
 
 > Too use minikube, you need to have [hypervisor](https://www.vmware.com/topics/glossary/content/hypervisor#:~:text=A%20hypervisor%2C%20also%20known%20as,such%20as%20memory%20and%20processing.) installed on your machine.
 
-The minikube tool can be found on GitHub in this [repository](https://github.com/Kubernetes/minikube) where links to binaries for Linux, macOS, and Windows can be found. Once the tool is installed, we can create a local cluster using this command:
+The minikube tool can be found [here](https://github.com/Kubernetes/minikube) where links to binaries for your Operating System of choice can be found. Once the tool is installed, we can create a local cluster using this command:
 
 ```bash
      $ minikube start
@@ -119,8 +116,8 @@ More instructions can be found [here](https://minikube.sigs.k8s.io/docs/start/)
 
 #### The Kubernetes Client
 
-`kubectl` is a command-line tool used to interact with the Kubernetes API and is used to manage Kubernetes
-objects such as pods and also monitor the overall health of the cluster.
+`kubectl` is a command-line tool used to interact with the Kubernetes API. It is used to manage Kubernetes
+objects and also helps us monitor the health of the cluster.
 
 We can check a cluster version using:
 
@@ -147,8 +144,7 @@ We have a glimpse of the components making up the Kubernetes cluster namely:
 
 - `controller-manager` - runs various controllers that regulate
 behavior in the cluster,
-- `scheduler` - places different
-pods onto different nodes in the cluster.
+- `scheduler` - places pods in appropriate nodes in our cluster.
 - `etcd` - serves as the storage for the cluster and all the API objects
 
 To list all nodes in a cluster, we run this command:
@@ -173,20 +169,25 @@ We are going to look at a few components that make up a Kubernetes Cluster namel
 - Kubernetes DNS
 - Kubernetes UI
 
-1. Kubernetes Proxy
+1. Kubernetes Proxy(```kube-proxy```)
 
-It is responsible for routing network traffic to load-balanced services in the Kubernetes Cluster and must be present on every node in the cluster to do its job effectively. Kubernetes has an API object named `DaemonSet` that is used in clusters to accomplish this. If your cluster runs the Kubernetes proxy with a `DaemonSet`, you can see the proxies by running this command:
+It enables services not in a cluster to communicate with those in a cluster through a network through a set of rules specified by it. Kubernetes achieves this using an object called the `DaemonSet` which basically makes the proxy run in every node in the cluster. If your cluster runs the Kubernetes proxy with a `DaemonSet`, you can see the proxies by running this command:
 
 ```bash
 $ kubectl get daemonSets --namespace=kube-system kube-proxy
+
 ```
+The `kube-proxy` can be implemented in three modes:
+- **User space** - Here, the proxy process do not run in the kernel network but in a user process level hence getting its name. It's not recommended because it is a slow method.
+- **iptables** - Unlike the User space mode, this mode operates in the kernel and it operates in a round robin style of scheduling services in a cluster. It is not used when there are many services because its style of scheduling may lead to slow performance and depriving more useful services time.
+- **IPVS** - (IP Virtual Server) Operates in the same manner like the **iptables** only that it uses more efficient scheduling algorithms that reduces the delay time. Used where there are many services.
 
 Read more on Kubernetes Proxy [here](https://Kubernetes.io/docs/concepts/cluster-administration/proxies/)
 
 2. Kubernetes DNS
 
-Kubernetes runs a DNS server that provides naming and discovery for services defined in the cluster. It can also run as a
-replicated service on the cluster. To view the servers, use this command:
+Kubernetes runs a DNS server that provides easy identification of services in a cluster by assigning them names thereby allowing us to access their functionality without knowing their identity. 
+We can view the DNS servers running by using this command:
 
 ```bash
 $ kubectl get deployments --namespace=kube-system kube-dns
@@ -195,7 +196,7 @@ Read more on Kubernetes DNS [here](https://Kubernetes.io/docs/concepts/services-
 
 3. Kubernetes UI
 
-This is a web-based graphical user interface and to see it, run this command:
+This is a web-based graphical user interface and to see it, we use this command:
 
 ```bash
 $ kubectl get deployments --namespace=kube-system Kubernetes-dashboard
