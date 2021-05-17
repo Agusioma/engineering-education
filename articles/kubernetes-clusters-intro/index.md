@@ -1,9 +1,7 @@
 ### Getting started with Kubernetes Clusters
 
-A **Kubernetes Cluster**  manages containers that consist of nodes that work together to perform a certain operation. In this article, we will first look at how to install Kubernetes on a Cloud Provider and locally in our machines.
-After successfully building an application container, we usually get the motivation to deploy it into a reliable and scalable distributed system. This can be achieved by using the *Kubernetes cluster*.
-
-Several cloud-based service providers make it easy to create Kubernetes clusters using few command-based instructions. This option is highly recommended if one is getting started with Kubernetes because  it's better to quickly get started with
+A **Kubernetes Cluster**  manages containers that consist of nodes that work together to perform a certain operation.
+After successfully building an application container, we usually get the motivation to deploy it into a reliable and scalable distributed system. Several cloud-based service providers make it easy to create Kubernetes clusters using few command-based instructions. This option is highly recommended if one is getting started with Kubernetes because  it's better to quickly get started with
 Kubernetes, learn about it, and then, later on, learn how to install it in our physical machines. As much as using cloud-based solutions requires us to pay and have an active network connection to the cloud,  the **minikube** tool only creates a *single-node cluster*, which doesn’t demonstrate all aspects of a complete Kubernetes cluster.
 
 #### Installing in Public Cloud Providers
@@ -15,7 +13,7 @@ In this section, We will look at how to install Kubernetes in these Cloud Provid
 
 1. Google Cloud Platform
 
-It offers a hosted *Kubernetes-as-a-Service* called **Google Container Engine (GKE)**. One needs to sign up for [the platform's Platform account](https://console.cloud.google.com/freetrial?_ga=2.256403528.294839319.1619953021-1551188299.1619953021) and install the [gcloud tool](https://cloud.google.com/sdk/docs/install).
+To use it, one needs to sign up for [the platform's Platform account](https://console.cloud.google.com/freetrial?_ga=2.256403528.294839319.1619953021-1551188299.1619953021) and install the [gcloud tool](https://cloud.google.com/sdk/docs/install).
 
 > NOTE: Billing has to be enabled for us to use the platform.
 Once everything is in place, we set our default zone:
@@ -24,7 +22,7 @@ Once everything is in place, we set our default zone:
      $ gcloud config set compute/zone <timezone>
 ```     
 
-Then create a cluster:
+And create our cluster:
 
 ```bash
      $ gcloud container clusters create <cluster>
@@ -73,7 +71,9 @@ Further instructions can be found in the [Azure documentation](https://docs.micr
 
 > Too use minikube, we need to have [hypervisor](https://www.vmware.com/topics/glossary/content/hypervisor#:~:text=A%20hypervisor%2C%20also%20known%20as,such%20as%20memory%20and%20processing.) installed on our machines.
 
-The minikube tool can be found [here](https://github.com/Kubernetes/minikube) where links to binaries for one's Operating System of choice can be found. Once the tool is installed, we can create a local cluster using this command:
+The minikube tool can be found [here](https://github.com/Kubernetes/minikube) where links to binaries for one's Operating System of choice can be found. 
+
+After installation, create a cluster and start it using this command:
 
 ```bash
      $ minikube start
@@ -101,8 +101,7 @@ More instructions can be found [here](https://minikube.sigs.k8s.io/docs/start/)
 
 #### The Kubernetes Client
 
-`kubectl` is a command-line tool used to interact with the Kubernetes API. It is used to manage Kubernetes
-objects and also helps us monitor the health of the cluster.
+Denoted as`kubectl`, the Kubernetes Client is used for managing, controlling the Kubernetes API objects and also helps us monitor the health of our clusters using the command line.
 
 We can check a cluster version using:
 
@@ -115,22 +114,6 @@ We can monitor the health of the cluster using:
 ```bash
 $ kubectl get componentstatuses
 ```
-
-The output will appear as shown:
-
-```bash
-NAME                STATUS      MESSAGE             ERROR
-scheduler           Healthy     ok                  
-controller-manager  Healthy     ok
-etcd-0              Healthy     {"health": "true"}
-
-```
-We have a glimpse of the components making up the Kubernetes cluster namely:
-
-- `controller-manager` - runs various controllers that regulate
-behavior in the cluster,
-- `scheduler` - places pods in appropriate nodes in the cluster.
-- `etcd` - serves as the storage for the cluster and all the API objects
 
 To list all nodes in a cluster, we run this command:
 
@@ -156,14 +139,16 @@ We are going to look at a few components that make up a Kubernetes Cluster namel
 
 1. Kubernetes Proxy(```kube-proxy```)
 
-It enables services not in a cluster to communicate with those in a cluster through a network through a set of rules specified by it. Kubernetes achieves this using an object called the `DaemonSet` which makes the proxy run in every node in the cluster. If your cluster runs the Kubernetes proxy with a `DaemonSet`, you can see the proxies by running this command:
+It enables services not in a cluster to communicate with those in a cluster through a network through a set of rules specified by it. Kubernetes achieves this using an object called the `DaemonSet` which makes the proxy run in every node in the cluster. 
+
+To see the proxies, we use this:
 
 ```bash
 $ kubectl get daemonSets --namespace=kube-system kube-proxy
 
 ```
 The `kube-proxy` can be implemented in three modes:
-- **User space** - Here, the proxy process do not run in the kernel network but in a user process level hence getting its name. It's not recommended because it is a slow method.
+- **User space** - Here, the proxy process do not run in the kernel network but in a user process level hence its name. It's not recommended because it is a slow method.
 - **iptables** - Unlike the User space mode, this mode operates in the kernel and it operates in a round-robin style of scheduling services in a cluster. It is not used when there are many services because its style of scheduling may lead to slow performance and depriving more useful services time.
 - **IPVS** - (IP Virtual Server) Operates in the same manner as the **iptables** only that it uses more efficient scheduling algorithms that reduce the delay time. Used where there are many services.
 
