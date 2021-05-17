@@ -1,8 +1,8 @@
 ### Getting started with Kubernetes Clusters
 
 A **Kubernetes Cluster**  manages containers that consist of nodes that work together to perform a certain operation.
-After successfully building an application container, we usually get the motivation to deploy it into a reliable and scalable distributed system. Several cloud-based service providers make it easy to create Kubernetes clusters using few command-based instructions. This option is highly recommended if one is getting started with Kubernetes because  it's better to quickly get started with
-Kubernetes, learn about it, and then, later on, learn how to install it in our physical machines. As much as using cloud-based solutions requires us to pay and have an active network connection to the cloud,  the **minikube** tool only creates a *single-node cluster*, which doesn’t demonstrate all aspects of a complete Kubernetes cluster.
+After successfully building an application container, we usually get the motivation to deploy it into a reliable and scalable distributed system. Several cloud-based service providers make it easy to create Kubernetes clusters using few command-based instructions. This option is highly recommended if one is getting started with Kubernetes because it's better to quickly get started with
+Kubernetes, learn about it and then learn how to install it in our physical machines. As much as using cloud-based solutions requires us to pay and have an active network connection to the cloud,  the **minikube** tool only creates a *single-node cluster*, which doesn’t demonstrate all aspects of a complete Kubernetes cluster.
 
 #### Installing in Public Cloud Providers
 
